@@ -1,6 +1,6 @@
 # E-commerce GraphQL API
 
-E-commerce GraphQL API that supports complex querying, filtering, and real-time data fetching for products, orders, and customers
+E-commerce GraphQL API server using Laravel 11 and Lighthouse that supports complex querying, filtering, and real-time data fetching for products, orders, and customers
 
 ## Key Features of the E-commerce GraphQL API
 
