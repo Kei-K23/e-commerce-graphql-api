@@ -19,12 +19,16 @@ type User {
 }
 
 type Category {
+    id: ID!
     name: String!
-    Description: String
+    description: String
+    products: [Product!] @hasMany(relation: "products")
 }
 
 type Product {
+    id: ID!
     name: String!
-    Description: String
-    Price: Int!
+    description: String
+    price: Float!
+    category: Category! @belongsTo(relation: "category")
 }
