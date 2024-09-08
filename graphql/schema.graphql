@@ -7,6 +7,25 @@ type Query {
     users: [User!]! @paginate
     categories: [Category!]! @paginate
     products: [Product!]! @paginate
+
+    # Get resource by id«
+    user(id: ID! @whereKey): User @find
+    category(id: ID! @whereKey): Category @find
+    product(id: ID! @whereKey): Product @find
+}
+
+type Mutation {
+    # Create
+    createCategory(name: String!, description: String): Category @create
+    createProduct(name: String!, description: String, price: Float!, category_id: ID!): Product @create
+
+    # Update
+    updateCategory(id: ID! @whereKey, name: String!, description: String): Category @update
+    updateProduct(id: ID! @whereKey,name: String!, description: String, price: Float!, category_id: ID!): Product @update
+
+    # Delete
+    deleteCategory(id: ID! @whereKey): Category @delete
+    deleteProduct(id: ID! @whereKey): Product @delete
 }
 
 type User {
