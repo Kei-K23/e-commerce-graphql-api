@@ -5,27 +5,43 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 type Query {
     # Get all data 
     users: [User!]! @paginate
+    customers: [Customer!]! @paginate
     categories: [Category!]! @paginate
     products: [Product!]! @paginate
+    orders: [Order!]! @paginate
 
     # Get resource by id«
     user(id: ID! @whereKey): User @find
+    customer(id: ID! @whereKey): Customer @find
     category(id: ID! @whereKey): Category @find
     product(id: ID! @whereKey): Product @find
+    order(id: ID! @whereKey): Order @find
+}
+
+enum OrderStatus {
+  PENDING @enum(value: "PENDING")
+  SHIPPED @enum(value: "SHIPPED")
+  DELIVERED @enum(value: "DELIVERED")
+  CANCELED @enum(value: "CANCELED")
 }
 
 type Mutation {
     # Create
+    createCustomer(name: String!, email: String!, password: String!): Customer @create
     createCategory(name: String!, description: String): Category @create
     createProduct(name: String!, description: String, price: Float!, category_id: ID!): Product @create
+    placeOrder(customer_id: ID!, product_ids: [ID!]!): Order @field(resolver: "App\\GraphQL\\Mutations\\PlaceOrder@__invoke")
 
     # Update
     updateCategory(id: ID! @whereKey, name: String!, description: String): Category @update
-    updateProduct(id: ID! @whereKey,name: String!, description: String, price: Float!, category_id: ID!): Product @update
+    updateProduct(id: ID! @whereKey, name: String!, description: String, price: Float!, category_id: ID!): Product @update
+    updateOrderStatus(id: ID! @whereKey, status: OrderStatus!): Order @update
 
     # Delete
     deleteCategory(id: ID! @whereKey): Category @delete
     deleteProduct(id: ID! @whereKey): Product @delete
+    cancelOrder(id: ID! @whereKey): Order @delete
+    deleteCustomer(id: ID! @whereKey): Customer @delete
 }
 
 type User {
@@ -35,6 +51,13 @@ type User {
     email_verified_at: DateTime
     created_at: DateTime!
     updated_at: DateTime!
+}
+
+type Customer {
+    id: ID!
+    name: String!
+    email: String!
+    password: String!
 }
 
 type Category {
@@ -50,4 +73,11 @@ type Product {
     description: String
     price: Float!
     category: Category! @belongsTo(relation: "category")
+}
+
+type Order {
+    id: ID!
+    status: String!
+    customer: Customer! @belongsTo(relation: "customer")
+    products: [Product!]! @belongsToMany(relation: "products")
 }
