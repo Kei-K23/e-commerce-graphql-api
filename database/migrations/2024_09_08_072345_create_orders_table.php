@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->integer('quantity');
-            $table->float('price');
-            $table->unsignedBigInteger('category_id');  // Foreign key
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreignId('customer_id')->constrained()->onDelete('cascade');
+            $table->enum('status', ['pending', 'shipped', 'delivered', 'canceled']);
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('orders');
     }
 };
