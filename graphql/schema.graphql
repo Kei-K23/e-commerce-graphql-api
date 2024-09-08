@@ -45,6 +45,10 @@ type Mutation {
     deleteCustomer(id: ID! @whereKey): Customer @delete
 }
 
+type Subscription {
+    orderPlaced: Order! @broadcast(subscription: "orderPlaced")
+}
+
 type User {
     id: ID!
     name: String!

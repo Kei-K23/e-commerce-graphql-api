@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use GraphQL\Type\Definition\ResolveInfo;
+use Nuwave\Lighthouse\Execution\Utils\Subscription;
 
 class PlaceOrder
 {
@@ -25,6 +26,10 @@ class PlaceOrder
 
         // Attach products to the order via the pivot table
         $order->products()->attach($args['product_ids']);
+
+
+        // Broadcast to the subscription
+        Subscription::broadcast('orderPlaced', $order);
 
         return $order;
     }
