@@ -27,7 +27,7 @@ enum OrderStatus {
 
 type Mutation {
     # Create
-    createCustomer(name: String!, email: String!, password: String!): Customer @create
+    createCustomer(name: String!, email: String!, password: String!): Customer @field(resolver: "App\\GraphQL\\Mutations\\CreateCustomer@__invoke")
     createCategory(name: String!, description: String): Category @create
     createProduct(name: String!, description: String, price: Float!, category_id: ID!): Product @create
     placeOrder(customer_id: ID!, product_ids: [ID!]!): Order @field(resolver: "App\\GraphQL\\Mutations\\PlaceOrder@__invoke")
