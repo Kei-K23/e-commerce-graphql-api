@@ -36,6 +36,7 @@ type Mutation {
     updateCategory(id: ID! @whereKey, name: String!, description: String): Category @update
     updateProduct(id: ID! @whereKey, name: String!, description: String, price: Float!, category_id: ID!): Product @update
     updateOrderStatus(id: ID! @whereKey, status: OrderStatus!): Order @update
+     updateCustomer(id: ID!, name: String, email: String, password: String): Customer @field(resolver: "App\\GraphQL\\Mutations\\UpdateCustomer@__invoke")
 
     # Delete
     deleteCategory(id: ID! @whereKey): Category @delete
